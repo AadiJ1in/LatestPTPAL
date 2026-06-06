@@ -135,26 +135,28 @@ export default function PatientDashboard() {
         </div>
       </main>
 
-      {/* Bottom Mobile Nav */}
+            {/* Bottom Mobile Nav */}
       <nav className="fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-md border-t border-slate-800 p-3 flex justify-around z-50">
-        <Link href="/patient/dashboard" className="text-purple-400 p-2"><Home size={24} /></Link>
-        <Link href="/patient/map" className="text-slate-400 p-2"><Map size={24} /></Link>
-        <Link href="/patient/dashboard" className="text-slate-400 p-2"><Target size={24} /></Link>
-<nav className="fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-md border-t border-slate-800 p-3 flex justify-around z-50">
-  <Link href="/patient/dashboard" className="text-purple-400 p-2 flex flex-col items-center">
-    <Home size={24} />
-    <span className="text-[10px] mt-1">Home</span>
-  </Link>
-  <Link href="/patient/map" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
-    <Map size={24} />
-    <span className="text-[10px] mt-1">Map</span>
-  </Link>
-  <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
-    <User size={24} />
-    <span className="text-[10px] mt-1">Profile</span>
-  </Link>
-  <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
-    <Settings size={24} />
-    <span className="text-[10px] mt-1">Settings</span>
-  </Link>
-</nav>
+        <Link href="/patient/dashboard" className="text-purple-400 p-2 flex flex-col items-center">
+          <Home size={24} />
+          <span className="text-[10px] mt-1">Home</span>
+        </Link>
+
+        <Link href="/patient/map" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+          <Map size={24} />
+          <span className="text-[10px] mt-1">Map</span>
+        </Link>
+
+        <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+          <User size={24} />
+          <span className="text-[10px] mt-1">Profile</span>
+        </Link>
+
+        <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+          <Settings size={24} />
+          <span className="text-[10px] mt-1">Settings</span>
+        </Link>
+      </nav>
+    </div>
+  );
+}
