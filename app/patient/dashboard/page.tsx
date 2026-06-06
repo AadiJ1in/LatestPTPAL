@@ -1,138 +1,160 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Bell, Home, Map, User, Settings, Zap, Heart, Target, Trophy, Flame } from "lucide-react";
 import Link from "next/link";
 
-// Mock Data - In a real Supabase app, this comes from your database
-const patientData = {
-  name: "Hero User",
+// Mock Data
+const user = {
+  name: "Hero",
   level: 8,
   xp: 6340,
-  xpToNext: 10000,
+  xpNeeded: 10000,
+  world: "Castle Kingdom",
+  hp: 850,
+  maxHp: 1000,
   streak: 7,
-  currentWorld: "Castle Kingdom",
-  campaignProgress: 45,
   nextBoss: "Iron Knight",
-  daysLeft: 12
+  bossDay: 10
 };
+
+const quests = [
+  { id: 1, title: "Morning Check-in", xp: 100, completed: true, icon: "📝" },
+  { id: 2, title: "Straight Leg Raise", xp: 300, completed: false, icon: "🦵", type: "game" },
+  { id: 3, title: "Bridge", xp: 250, completed: false, icon: "🌉", type: "game" },
+  { id: 4, title: "Clamshell", xp: 200, completed: false, icon: "🐚", type: "game" },
+];
 
 export default function PatientDashboard() {
   const router = useRouter();
+  const xpPercent = Math.round((user.xp / user.xpNeeded) * 100);
 
   return (
-    <div className="min-h-screen bg-ptpal-bg text-white p-4 md:p-8">
-      {/* Header */}
-      <header className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-2xl font-bold">Welcome back, {patientData.name}</h1>
-          <p className="text-slate-400 text-sm">Current Streak: <span className="text-orange-500 font-bold">{patientData.streak} Days 🔥</span></p>
-        </div>
-        <Link href="/patient/character">
-           <div className="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center font-bold border-2 border-white cursor-pointer">
-            L{patientData.level}
+    <div className="min-h-screen bg-slate-900 text-white font-sans pb-20">
+      {/* Top Bar */}
+      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 p-4 sticky top-0 z-50">
+        <div className="max-w-md mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-2">
+             <span className="text-xl font-bold">🏥</span>
+             <span className="font-bold text-lg tracking-tight">PTPAL</span>
           </div>
-        </Link>
+          <button className="p-2 text-slate-400 hover:text-white relative">
+            <Bell size={20} />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
       </header>
 
-      {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* XP Card */}
-        <div className="bg-ptpal-card p-6 rounded-2xl border border-slate-700 relative overflow-hidden">
-           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-600 to-purple-400" />
-          <div className="flex justify-between items-end mb-2">
-            <h3 className="text-violet-400 font-bold">Experience</h3>
-            <span className="text-xl font-bold">{patientData.xp}/{patientData.xpToNext}</span>
-          </div>
-          <div className="w-full bg-slate-700 h-4 rounded-full overflow-hidden mt-2">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${(patientData.xp / patientData.xpToNext) * 100}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-violet-600 to-purple-400"
-            />
-          </div>
-          <p className="text-xs text-slate-400 mt-2 text-right">Level {patientData.level + 1} in 3 days</p>
-        </div>
+      <main className="max-w-md mx-auto p-4 space-y-6">
+        {/* Profile Card */}
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-6 border border-slate-700 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+          
+          <div className="relative z-10">
+            <div className="flex justify-between items-start mb-6">
+               <div>
+                 <h1 className="text-2xl font-bold">Hello, {user.name}</h1>
+                 <p className="text-slate-400 text-sm">{user.world} • Day 12</p>
+               </div>
+               <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 p-1">
+                  <div className="w-full h-full bg-slate-900 rounded-full flex items-center justify-center text-2xl font-bold">
+                    {user.level}
+                  </div>
+               </div>
+            </div>
 
-        {/* Boss Encounter Card */}
-        <div className="bg-ptpal-card p-6 rounded-2xl border border-slate-700 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-3xl" />
-          <div className="flex justify-between items-start">
-            <h3 className="text-red-400 font-bold">Boss Encounter</h3>
-            <span className="text-xs bg-red-900 text-red-200 px-2 py-1 rounded">Day 10</span>
-          </div>
-          <p className="text-2xl font-bold mt-2 text-slate-200">{patientData.nextBoss}</p>
-          <p className="text-slate-400 text-sm">Appears in {patientData.daysLeft} days</p>
-          <div className="mt-4 flex items-center gap-2">
-             <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div className="h-full bg-red-600 w-[60%]" />
-             </div>
-             <span className="text-xs font-mono text-red-400">60%</span>
-          </div>
-        </div>
-
-        {/* World Map Card */}
-        <div className="bg-ptpal-card p-6 rounded-2xl border border-slate-700">
-          <h3 className="text-emerald-400 font-bold mb-2">Current World</h3>
-          <div className="text-3xl mb-2">🏰 {patientData.currentWorld}</div>
-          <div className="w-full bg-slate-700 h-2 rounded-full mt-3">
-            <div className="h-full bg-emerald-500 w-[45%] rounded-full" />
-          </div>
-          <p className="text-xs text-slate-400 mt-2">Campaign Progress: {patientData.campaignProgress}%</p>
-        </div>
-      </div>
-
-      {/* Quick Actions / Daily Quests */}
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          Today&apos;s Quests <span className="text-xs bg-purple-900 text-purple-200 px-2 py-1 rounded-full">3/5 Complete</span>
-        </h2>
-        <div className="grid gap-4">
-          {/* Quest Item 1 */}
-          <div className="bg-slate-800/50 p-4 rounded-xl flex justify-between items-center cursor-pointer hover:bg-slate-800 transition-colors border border-slate-700">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-ptpal-success flex items-center justify-center text-xl">✓</div>
-              <div>
-                <p className="font-bold">Morning Check-in</p>
-                <p className="text-xs text-slate-400">Answer daily questions</p>
+            {/* XP Bar */}
+            <div className="mb-2">
+              <div className="flex justify-between text-xs text-slate-400 mb-1">
+                <span>Level {user.level}</span>
+                <span>{user.xp}/{user.xpNeeded} XP</span>
+              </div>
+              <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${xpPercent}%` }}
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                />
               </div>
             </div>
-            <div className="text-ptpal-gold font-bold">+100 XP</div>
-          </div>
 
-          {/* Quest Item 2 */}
-          <div onClick={() => router.push('/patient/exercise/1')} className="bg-slate-800/50 p-4 rounded-xl flex justify-between items-center cursor-pointer hover:bg-slate-800 transition-colors border border-slate-700">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">🏋️</div>
-              <div>
-                <p className="font-bold">Straight Leg Raise</p>
-                <p className="text-xs text-slate-400">10 Reps • Rocket Launch</p>
-              </div>
-            </div>
-            <div className="text-ptpal-gold font-bold">+300 XP</div>
-          </div>
-
-           {/* Quest Item 3 */}
-           <div className="bg-slate-800/30 p-4 rounded-xl flex justify-between items-center border border-slate-700/50 opacity-50 cursor-not-allowed">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">⏳</div>
-              <div>
-                <p className="font-bold">Bridge</p>
-                <p className="text-xs text-slate-400">Locked (Complete previous)</p>
-              </div>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-3 gap-4 mt-6">
+               <div className="bg-slate-800/50 p-3 rounded-2xl text-center border border-slate-700">
+                  <Flame className="w-5 h-5 text-orange-500 mx-auto mb-1" />
+                  <div className="text-lg font-bold">{user.streak}</div>
+                  <div className="text-[10px] text-slate-400 uppercase">Streak</div>
+               </div>
+               <div className="bg-slate-800/50 p-3 rounded-2xl text-center border border-slate-700">
+                  <Heart className="w-5 h-5 text-red-500 mx-auto mb-1" />
+                  <div className="text-lg font-bold">{user.hp}/{user.maxHp}</div>
+                  <div className="text-[10px] text-slate-400 uppercase">HP</div>
+               </div>
+               <div className="bg-slate-800/50 p-3 rounded-2xl text-center border border-slate-700">
+                  <Trophy className="w-5 h-5 text-yellow-500 mx-auto mb-1" />
+                  <div className="text-lg font-bold">{user.bossDay}</div>
+                  <div className="text-[10px] text-slate-400 uppercase">Boss</div>
+               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Navigation Placeholder */}
-      <div className="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-700 p-4 flex justify-around z-50 md:hidden">
-         <Link href="/patient/dashboard" className="text-purple-400">🏠</Link>
-         <Link href="/patient/map" className="text-slate-400">🗺️</Link>
-         <Link href="/patient/avatar" className="text-slate-400">🦸</Link>
-         <Link href="/patient/profile" className="text-slate-400">⚙️</Link>
-      </div>
-    </div>
-  );
-}
+        {/* Today's Quests Section */}
+        <div>
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            Today's Quests <span className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded-full">3/4 Done</span>
+          </h2>
+          
+          <div className="space-y-3">
+            {quests.map((quest) => (
+              <div 
+                key={quest.id}
+                onClick={() => !quest.completed && quest.type === 'game' && router.push('/patient/exercise/1')}
+                className={`
+                  p-4 rounded-2xl flex items-center gap-4 transition-all
+                  ${quest.completed 
+                    ? 'bg-slate-800/30 border border-slate-800 opacity-60' 
+                    : 'bg-slate-800 border border-slate-700 hover:border-purple-500 hover:scale-[1.02] cursor-pointer'}
+                `}
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${quest.completed ? 'bg-slate-700 text-slate-500' : 'bg-purple-600 text-white'}`}>
+                  {quest.completed ? '✓' : quest.icon}
+                </div>
+                <div className="flex-1">
+                   <h3 className={`font-bold ${quest.completed ? 'line-through text-slate-500' : 'text-white'}`}>{quest.title}</h3>
+                   <p className="text-xs text-slate-400">+{quest.xp} XP</p>
+                </div>
+                {!quest.completed && (
+                   <button className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg">
+                      ▶
+                   </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      {/* Bottom Mobile Nav */}
+      <nav className="fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-md border-t border-slate-800 p-3 flex justify-around z-50">
+        <Link href="/patient/dashboard" className="text-purple-400 p-2"><Home size={24} /></Link>
+        <Link href="/patient/map" className="text-slate-400 p-2"><Map size={24} /></Link>
+        <Link href="/patient/dashboard" className="text-slate-400 p-2"><Target size={24} /></Link>
+<nav className="fixed bottom-0 w-full bg-slate-900/90 backdrop-blur-md border-t border-slate-800 p-3 flex justify-around z-50">
+  <Link href="/patient/dashboard" className="text-purple-400 p-2 flex flex-col items-center">
+    <Home size={24} />
+    <span className="text-[10px] mt-1">Home</span>
+  </Link>
+  <Link href="/patient/map" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+    <Map size={24} />
+    <span className="text-[10px] mt-1">Map</span>
+  </Link>
+  <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+    <User size={24} />
+    <span className="text-[10px] mt-1">Profile</span>
+  </Link>
+  <Link href="/patient/dashboard" className="text-slate-400 p-2 flex flex-col items-center hover:text-white transition-colors">
+    <Settings size={24} />
+    <span className="text-[10px] mt-1">Settings</span>
+  </Link>
+</nav>
