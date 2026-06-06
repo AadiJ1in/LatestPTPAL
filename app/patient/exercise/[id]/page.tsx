@@ -12,9 +12,9 @@ export default function ExercisePage({ params }: { params: { id: string } }) {
   const [feedback, setFeedback] = useState("Get Ready...");
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const detectorRef = useRef<any>(null);
 
   useEffect(() => {
-    // Simple Camera Setup
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -25,99 +25,79 @@ export default function ExercisePage({ params }: { params: { id: string } }) {
           videoRef.current.onloadedmetadata = () => {
             videoRef.current!.play();
             setIsCameraReady(true);
-            detectPose();
+            initAI();
           };
         }
       } catch (err) {
         console.error("Camera error:", err);
-        setFeedback("Camera Error: Please allow camera access.");
+        setFeedback("Camera Error");
       }
     }
     setupCamera();
   }, []);
 
-  // Placeholder for Pose Detection Logic
-  // In production, you run the MediaPipe model here
-  async function detectPose() {
-    if (!isCameraReady || !videoRef.current) return;
+  async function initAI() {
+    // Initialize MediaPipe
+    const model = poseDetection.SupportedModels.MoveNet;
+    const detector = await poseDetection.createDetector(model, {
+      modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER
+    });
+    detectorRef.current = detector;
+    startGameLoop();
+  }
 
-    // The actual AI detection happens in a loop here
-    // For this demo, we simulate the game loop
-    const interval = setInterval(() => {
-      setReps((prev) => {
-        const newReps = prev + 1;
-        
-        // Simulate scoring
-        if (newReps % 3 === 0) {
-            setFeedback("Perfect Form! +15 Damage 🔥");
-            setScore((s) => s + 15);
-        } else {
-            setFeedback("Good Job! +10 Damage");
-            setScore((s) => s + 10);
-        }
-        
-        if (newReps >= 10) {
-            clearInterval(interval);
-            setFeedback("Quest Complete! Returning to dashboard...");
-            setTimeout(() => router.push('/patient/dashboard'), 3000);
-        }
-        return newReps;
-      });
+  async function startGameLoop() {
+    if (!detectorRef.current || !videoRef.current || !canvasRef.current) return;
+
+    // Simple Loop for Demo
+    const interval = setInterval(async () => {
+      const poses = await detectorRef.current.estimatePoses(videoRef.current!);
+      
+      // Logic: Check if person is detected
+      if (poses.length > 0 && poses[0].keypoints.length > 0) {
+        setReps((prev) => {
+          const newReps = prev + 1;
+          setFeedback("Nice Form! +10 XP");
+          setScore((s) => s + 10);
+          return newReps;
+        });
+      }
+
+      if (reps >= 10) {
+        clearInterval(interval);
+        setFeedback("Quest Complete!");
+        setTimeout(() => router.push('/patient/dashboard'), 2000);
+      }
     }, 2000);
   }
 
   return (
-    <div className="min-h-screen bg-ptpal-bg text-white flex flex-col">
-      {/* Top HUD */}
-      <div className="p-4 flex justify-between items-center bg-slate-900 z-10">
-        <h1 className="text-lg font-bold text-purple-400">ROCKET LAUNCH 🚀</h1>
-        <div className="flex gap-4 text-sm">
+    <div className="min-h-screen bg-slate-900 text-white flex flex-col">
+      {/* HUD */}
+      <div className="p-4 bg-slate-800 flex justify-between items-center">
+        <h1 className="text-lg font-bold text-purple-400">ROCKET LAUNCH</h1>
+        <div className="flex gap-4">
             <div>Reps: <span className="font-mono text-xl">{reps}/10</span></div>
             <div>Score: <span className="font-mono text-xl text-yellow-400">{score}</span></div>
         </div>
       </div>
 
-      {/* Main Game Area */}
-      <div className="relative flex-grow flex flex-col items-center justify-center bg-black">
+      {/* Game Area */}
+      <div className="relative flex-grow bg-black flex items-center justify-center">
+        <video ref={videoRef} className="absolute w-full h-full object-cover opacity-50" playsInline />
+        <canvas ref={canvasRef} className="absolute w-full h-full" />
         
-        {/* Video Element (Hidden usually, shown for debugging or side-by-side) */}
-        <video 
-            ref={videoRef} 
-            className="absolute w-full h-full object-cover opacity-50"
-            playsInline 
-        />
-        
-        {/* Overlay Canvas for Game Graphics */}
-        <canvas 
-            ref={canvasRef} 
-            className="absolute w-full h-full"
-        />
-
-        {/* Game Visuals Overlay - Example for Rocket Launch */}
-        <div className="absolute bottom-20 w-full flex flex-col items-center">
-             <motion.div 
-                animate={{ y: -reps * 20 }} // Visual hook: Move rocket up based on reps
-                className="text-6xl"
-             >
-                🚀
-             </motion.div>
-             <div className="mt-4 bg-slate-900/80 p-2 rounded-lg px-4 border border-purple-500">
+        {/* Game Overlay */}
+        <div className="absolute bottom-20 flex flex-col items-center">
+             <div className="text-6xl animate-bounce">🚀</div>
+             <div className="mt-4 bg-black/50 px-4 py-2 rounded border border-purple-500">
                 {feedback}
              </div>
         </div>
-
-        {/* Camera Ready Status */}
-        {!isCameraReady && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black z-20">
-                <p className="animate-pulse">Initializing Camera...</p>
-            </div>
-        )}
       </div>
       
-      {/* Control Bar */}
-      <div className="p-4 bg-slate-900 flex justify-around">
-        <button onClick={() => router.back()} className="text-slate-400">Exit</button>
-        <button className="bg-red-600 px-6 py-2 rounded-full font-bold">STOP</button>
+      <div className="p-4 bg-slate-800 text-center">
+        <button onClick={() => router.back()} className="text-slate-400">Exit Exercise</button>
       </div>
     </div>
   );
