@@ -84,12 +84,10 @@ export default function CharacterCreation() {
               <p className="text-center text-sm text-ptpal-gold mb-4 font-medium">{charClass.theme}</p>
               <p className="text-sm text-center text-slate-400 mb-4">{charClass.desc}</p>
               <div className="text-center">
-                <span className="text-xs bg-slate-700 px-2 py-1 rounded
-
-                // File: app/patient/character/page.tsx (Continued)
-
-              <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">Focus: {charClass.focus}</span>
-              </div>
+                  <span className="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">
+                    Focus: {charClass.focus}
+                </span>
+            </div>
             </motion.div>
           ))}
         </div>
