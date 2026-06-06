@@ -4,91 +4,158 @@ import Link from "next/link";
 
 export default function CoverPage() {
   return (
-    <div className="min-h-screen w-full bg-[#0F172A] flex flex-col items-center justify-center">
+    <div 
+      className="min-h-screen w-full flex flex-col items-center justify-center"
+      style={{ backgroundColor: "#0F172A" }}
+    >
+      {/* Background Effects */}
+      <div style={{
+        position: "fixed",
+        top: "-20%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "600px",
+        height: "600px",
+        backgroundColor: "rgba(139, 92, 246, 0.15)",
+        borderRadius: "50%",
+        filter: "blur(100px)",
+        pointerEvents: "none",
+      }} />
       
-      {/* BACKGROUND */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-900/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-900/15 rounded-full blur-[120px]" />
-        
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-purple-400/30 rounded-full"
-            animate={{ y: [0, -40, 0], opacity: [0.1, 0.5, 0.1] }}
-            transition={{ duration: 5 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 4 }}
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-            }}
-          />
-        ))}
-      </div>
+      <div style={{
+        position: "fixed",
+        bottom: "-20%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "600px",
+        height: "600px",
+        backgroundColor: "rgba(99, 102, 241, 0.1)",
+        borderRadius: "50%",
+        filter: "blur(100px)",
+        pointerEvents: "none",
+      }} />
 
-      {/* CENTERED CONTENT */}
-      <main className="relative z-10 flex flex-col items-center justify-center px-6 py-12 w-full">
+      {/* Main Content - Centered */}
+      <main 
+        className="flex flex-col items-center justify-center px-6 py-12"
+        style={{ 
+          position: "relative", 
+          zIndex: 10,
+          width: "100%",
+          maxWidth: "600px",
+          textAlign: "center"
+        }}
+      >
         
-        {/* LOGO */}
+        {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-10"
+          style={{ marginBottom: "3rem" }}
         >
-          <h1 className="text-4xl font-black text-white tracking-tight">PTPAL</h1>
+          <h1 style={{ fontSize: "2.5rem", fontWeight: 900, color: "white", letterSpacing: "-0.02em" }}>
+            PTPAL
+          </h1>
         </motion.div>
 
-        {/* MASCOT */}
+        {/* Mascot Placeholder */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-64 h-64 md:w-80 md:h-80 mb-10 relative"
+          style={{ 
+            width: "280px", 
+            height: "280px", 
+            marginBottom: "2.5rem",
+            position: "relative"
+          }}
         >
-          <div className="absolute inset-0 bg-purple-600/20 rounded-full blur-3xl" />
-          <img src="/cheetah.png" alt="Pace the Cheetah" className="w-full h-full object-contain" />
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: "rgba(139, 92, 246, 0.2)",
+            borderRadius: "50%",
+            filter: "blur(60px)"
+          }} />
+          <img 
+            src="/cheetah.png" 
+            alt="Pace the Cheetah" 
+            style={{ width: "100%", height: "100%", objectFit: "contain" }} 
+          />
         </motion.div>
 
-        {/* HEADLINE */}
+        {/* Headline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mb-4"
+          style={{ marginBottom: "1rem" }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white">
+          <h2 style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", lineHeight: 1.1 }}>
             LEVEL UP YOUR <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            <span style={{ 
+              background: "linear-gradient(to right, #a78bfa, #f472b6)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}>
               RECOVERY
             </span>
           </h2>
         </motion.div>
 
-        {/* SUBHEADLINE */}
+        {/* Subheadline */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-slate-400 text-lg text-center mb-10 max-w-md"
+          style={{ 
+            color: "#94a3b8", 
+            fontSize: "1.125rem", 
+            marginBottom: "2.5rem",
+            maxWidth: "400px"
+          }}
         >
           Complete physical therapy exercises, earn rewards, and recover alongside Pace the Cheetah.
         </motion.p>
 
-        {/* BUTTONS */}
+        {/* Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4"
+          style={{ width: "100%" }}
         >
-          <Link href="/patient/join" className="w-full max-w-sm">
-            <button className="w-full py-4 px-8 rounded-full font-bold text-lg text-slate-900 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 shadow-lg shadow-amber-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          <Link href="/patient/join" style={{ width: "100%", maxWidth: "300px" }}>
+            <button 
+              style={{
+                width: "100%",
+                padding: "1rem 2rem",
+                borderRadius: "9999px",
+                fontWeight: 700,
+                fontSize: "1.125rem",
+                background: "linear-gradient(to right, #fbbf24, #f59e0b)",
+                color: "#0f172a",
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 10px 25px -5px rgba(251, 191, 36, 0.4)"
+              }}
             >
               Start My Recovery
             </button>
           </Link>
           
-          <button className="py-3 px-8 rounded-full font-medium text-slate-300 border border-slate-600 hover:border-slate-400 transition-colors"
+          <button 
+            style={{
+              padding: "0.75rem 2rem",
+              borderRadius: "9999px",
+              fontWeight: 500,
+              background: "transparent",
+              color: "#cbd5e1",
+              border: "1px solid #475569",
+              cursor: "pointer"
+            }}
           >
             Watch Demo
           </button>
