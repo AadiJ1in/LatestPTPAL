@@ -13,8 +13,59 @@ export default function PatientRegister() {
     confirmPassword: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const patientCode = generatePatientCode();
+
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    const userId = data.user?.id;
+
+    if (!userId) {
+      alert("Unable to create account.");
+      return;
+    }
+
+    const { error: dbError } = await supabase
+      .from("patients")
+      .insert({
+        auth_user_id: userId,
+        email: formData.email,
+        full_name: formData.name,
+        patient_code: patientCode,
+      });
+
+    if (dbError) {
+      alert(dbError.message);
+      return;
+    }
+
+    alert(
+      `Account created!\n\nYour Patient ID is:\n${patientCode}\n\nSave this ID.`
+    );
+
+    router.push("/patient/character");
+
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong.");
+  }
+};    e.preventDefault();
     // Supabase signUp logic here
     router.push('/patient/character');
   };
