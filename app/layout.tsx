@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "PTPAL - Level Up Your Recovery",
-  description: "Gamified physical therapy platform",
+export const metadata = {
+  title: "PTPAL",
+  description: "Level Up Your Recovery",
 };
 
 export default function RootLayout({
@@ -13,9 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#0F172A] text-white overflow-x-hidden">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
