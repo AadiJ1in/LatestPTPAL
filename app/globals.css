@@ -3,71 +3,72 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 15, 23, 42;
-  --background-end-rgb: 15, 23, 42;
+  --background: 15 23 42;
+  --foreground: 255 255 255;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--foreground));
   background: #0F172A;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
 }
 
-/* Gaming Glow Effects */
-.glow-purple {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 10px rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.5);
+/* Premium Glow Button */
+.btn-glow {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+  box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
 }
 
-.glow-gold {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 0 10px rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.5);
+.btn-glow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 35px -5px rgba(139, 92, 246, 0.6), 0 0 30px rgba(139, 92, 246, 0.5);
 }
 
-.glow-green {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-  border: 1px solid rgba(16, 185, 129, 0.5);
+.btn-glow:active {
+  transform: scale(0.98);
 }
 
-/* Glassmorphism */
-.glass-card {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0F172A;
-}
-::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #475569;
-}
-
-/* Animations */
+/* Floating Animation */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(-2deg); }
+  50% { transform: translateY(0px) rotate(0deg); }
+  75% { transform: translateY(-5px) rotate(2deg); }
 }
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
 
+/* Blink Animation */
+@keyframes blink {
+  0%, 96%, 100% { transform: scaleY(1); }
+  98% { transform: scaleY(0.1); }
+}
+
+.animate-blink {
+  animation: blink 4s ease-in-out infinite;
+}
+
+/* Sparkle */
+@keyframes sparkle {
+  0% { opacity: 0; transform: scale(0) translateY(0); }
+  50% { opacity: 1; transform: scale(1) translateY(-20px); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-40px); }
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* Pulse Glow */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
-  50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.8); }
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 3s ease-in-out infinite;
 }
