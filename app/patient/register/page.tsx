@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { generatePatientCode } from "@/lib/generatePatientCode";
 
 export default function PatientRegister() {
   const router = useRouter();
