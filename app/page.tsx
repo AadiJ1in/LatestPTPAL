@@ -1,114 +1,123 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function CoverPage() {
-  const [showStars, setShowStars] = useState<number[]>([]);
-  
-  // Trigger star burst periodically
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowStars(Array.from({ length: 5 }, (_, i) => i));
-      setTimeout(() => setShowStars([]), 2000);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <main className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0F172A] text-white">
       
       {/* ===================== BACKGROUND ===================== */}
       
+      {/* Deep Navy Base */}
       <div className="absolute inset-0 bg-[#0F172A]" />
       
-      {/* Purple Gradient Lighting (Top Left) */}
-      <div className="absolute top-[-10%] left-[-20%] w-[70%] h-[70%] bg-purple-900/30 rounded-full blur-[150px]" />
+      {/* Purple Gradient Glow (Top) */}
+      <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-900/20 rounded-full blur-[120px]" />
       
-      {/* Blue Gradient Lighting (Bottom Right) */}
-      <div className="absolute bottom-[-10%] right-[-20%] w-[70%] h-[70%] bg-indigo-900/20 rounded-full blur-[150px]" />
-      
-      {/* Faint Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      {/* Blue Gradient Glow (Bottom) */}
+      <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-900/15 rounded-full blur-[120px]" />
       
       {/* Floating Particles */}
-      {[...Array(15)].map((_, i) => (
+      {[...Array(12)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-white/30 rounded-full"
-          initial={{ opacity: Math.random() * 0.5 }}
+          className="absolute w-1 h-1 bg-purple-400/30 rounded-full"
           animate={{ 
-            y: [0, -30, 0],
-            opacity: [0.1, 0.6, 0.1] 
+            y: [0, -40, 0],
+            opacity: [0.1, 0.5, 0.1] 
           }}
           transition={{ 
-            duration: 4 + Math.random() * 3, 
+            duration: 5 + Math.random() * 4, 
             repeat: Infinity,
-            delay: Math.random() * 3
+            delay: Math.random() * 4
           }}
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: `${10 + Math.random() * 80}%`,
+            top: `${10 + Math.random() * 80}%`,
           }}
         />
       ))}
 
-      {/* ===================== CENTERED CONTENT ===================== */}
+      {/* ===================== CENTERED HERO CONTENT ===================== */}
       
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         
-        {/* ===================== BRANDING ===================== */}
-        
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-black tracking-tighter text-white mb-1">
+        {/* 1. Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12"
+        >
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white">
             PTPAL
           </h1>
-          <p className="text-sm font-medium tracking-[0.3em] text-purple-400 uppercase">
-            Recovery Quest
-          </p>
-        </div>
-        
-        {/* ===================== HEADLINE ===================== */}
-        
-        <div className="text-center mb-4">
-          <h2 className="text-3xl md:text-4xl font-bold leading-tight text-white">
-            Recover Faster.<br/>
+        </motion.div>
+
+        {/* 2. Mascot (Placeholder - Replace with /cheetah.png) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative w-64 h-64 md:w-80 md:h-80 mb-10"
+        >
+          {/* Glow Behind */}
+          <div className="absolute inset-0 bg-purple-600/20 rounded-full blur-3xl transform scale-75" />
+          
+          {/* Cheetah Image - Replace src with your image */}
+          <img 
+            src="/cheetah.png" 
+            alt="Pace the Cheetah"
+            className="w-full h-full object-contain drop-shadow-2xl"
+          />
+        </motion.div>
+
+        {/* 3. Headline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mb-4"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white">
+            LEVEL UP YOUR <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-              Play Every Day.
+              RECOVERY
             </span>
           </h2>
-        </div>
-        
-        {/* ===================== SUPPORTING TEXT ===================== */}
-        
-        <p className="text-center text-slate-400 text-sm leading-relaxed max-w-xs mb-8">
-          Turn physical therapy into an adventure. Complete exercises, earn rewards, unlock milestones, and recover alongside Pace the Cheetah.
-        </p>
-        
-        {/* ===================== CALL TO ACTION ===================== */}
-        
-        <Link href="/patient/join" className="w-full">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.96 }}
-            className="w-full py-4 px-8 rounded-full font-bold text-lg text-white bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] shadow-lg shadow-purple-500/30 flex items-center justify-center gap-2"
+        </motion.div>
+
+        {/* 4. Subheadline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-center text-slate-400 text-lg md:text-xl mb-10 max-w-md leading-relaxed"
+        >
+          Complete physical therapy exercises, earn rewards, and recover alongside Pace the Cheetah.
+        </motion.p>
+
+        {/* 5. Primary CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-col items-center gap-4 w-full"
+        >
+          <Link href="/patient/join" className="w-full max-w-sm">
+            <button className="w-full py-4 px-8 rounded-full font-bold text-lg text-slate-900 bg-gradient-to-r from-[#FBBF24] via-[#F59E0B] to-[#D97706] shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+            >
+              Start My Recovery
+            </button>
+          </Link>
+          
+          {/* 6. Secondary CTA */}
+          <button className="py-3 px-8 rounded-full font-medium text-slate-300 border border-slate-600 hover:border-slate-400 hover:text-white transition-colors duration-200"
           >
-            Start My Recovery
-            <span className="text-xl">🚀</span>
-          </motion.button>
-        </Link>
-        
-        {/* ===================== TRUST BADGE ===================== */}
-        
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-slate-500">
-          <span>🔒</span>
-          <span>HIPAA-Conscious</span>
-          <span>•</span>
-          <span>Therapist Guided</span>
-          <span>•</span>
-          <span>Evidence Based</span>
-        </div>
-        
+            Watch Demo
+          </button>
+        </motion.div>
+
       </div>
     </main>
   );
