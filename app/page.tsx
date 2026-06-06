@@ -58,7 +58,7 @@ export default function CoverPage() {
     justifyContent: "center"
   }}
 >
-            >
+            
               <h1 style={{ fontSize: "2.5rem", fontWeight: 900, color: "white", letterSpacing: "-0.02em" }}>
                 PTPAL
               </h1>
