@@ -11,6 +11,23 @@ export default function PatientRegister() {
     email: "",
     password: "",
     confirmPassword: ""
+    <div>
+  <label className="block text-sm text-slate-400 mb-1">
+    Confirm Password
+  </label>
+
+  <input
+    type="password"
+    className="w-full bg-slate-800 border border-slate-700 text-white p-3 rounded-lg"
+    onChange={(e) =>
+      setFormData({
+        ...formData,
+        confirmPassword: e.target.value,
+      })
+    }
+    required
+  />
+</div>
   });
 
 const handleSubmit = async (e: React.FormEvent) => {
