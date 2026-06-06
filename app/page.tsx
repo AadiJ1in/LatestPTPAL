@@ -34,25 +34,30 @@ export default function CoverPage() {
       }} />
 
       {/* Centered Wrapper */}
-      <div className="max-w-7xl mx-auto px-8">
+      <div className="w-full px-8 flex justify-center items-center min-h-screen">
         
         {/* Content Container - Shifted toward center */}
-        <div className="w-full flex justify-center">
-          
-          <main 
-            className="max-w-2xl"
-            style={{ 
-              paddingTop: "3rem",
-              paddingBottom: "3rem"
-            }}
-          >
+        <div className="w-full flex justify-center items-center min-h-screen">
+
+  <main
+    className="max-w-2xl text-center flex flex-col items-center"
+    style={{
+      paddingTop: "3rem",
+      paddingBottom: "3rem"
+    }}
+  >
             
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              style={{ marginBottom: "3rem" }}
+              style={{
+    marginBottom: "2rem",
+    display: "flex",
+    justifyContent: "center"
+  }}
+>
             >
               <h1 style={{ fontSize: "2.5rem", fontWeight: 900, color: "white", letterSpacing: "-0.02em" }}>
                 PTPAL
@@ -64,12 +69,14 @@ export default function CoverPage() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              style={{ 
-                width: "280px", 
-                height: "280px", 
-                marginBottom: "2.5rem",
-                position: "relative"
-              }}
+              style={{
+  width: "320px",
+  height: "320px",
+  marginBottom: "2rem",
+  position: "relative",
+  marginLeft: "auto",
+  marginRight: "auto"
+}}
             >
               <div style={{
                 position: "absolute",
@@ -109,18 +116,26 @@ export default function CoverPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              style={{ 
-                color: "#94a3b8", 
-                fontSize: "1.125rem", 
-                marginBottom: "2.5rem",
-                maxWidth: "400px"
-              }}
+              style={{
+  color: "#94a3b8",
+  fontSize: "1.125rem",
+  marginBottom: "2.5rem",
+  maxWidth: "600px",
+  textAlign: "center",
+  marginLeft: "auto",
+  marginRight: "auto"
+}}
             >
               Complete physical therapy exercises, earn rewards, and recover alongside Pace the Cheetah.
             </motion.p>
 
             {/* Buttons */}
             <motion.div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
