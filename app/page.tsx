@@ -94,11 +94,15 @@ export default function CoverPage() {
 
             {/* Headline */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              style={{ marginBottom: "1rem" }}
-            >
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.4 }}
+  style={{
+    marginBottom: "1rem",
+    width: "100%",
+    textAlign: "center"
+  }}
+>
               <h2 style={{ fontSize: "2.5rem", fontWeight: 700, color: "white", lineHeight: 1.1 }}>
                 LEVEL UP YOUR <br />
                 <span style={{ 
